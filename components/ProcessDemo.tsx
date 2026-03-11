@@ -185,6 +185,7 @@ export function ProcessDemo() {
                   <video
                     ref={videoRef}
                     src="/videos/kirana_final.mp4"
+                    poster="/models/kirana_front.jpg"
                     className="w-full h-full object-cover"
                     onEnded={() => setIsPlaying(false)}
                     playsInline

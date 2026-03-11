@@ -31,7 +31,7 @@ export function CaseStudy() {
             {t('From Brief to TikTok in 48 Hours', '从简报到 TikTok，48 小时交付')}
           </h2>
           <p className="text-lg text-[#6B7280] font-light">
-            Kirana × VEIRFOO × Indonesia
+            Yuki × Yuna × VEIRFOO
           </p>
         </motion.div>
 
@@ -63,8 +63,8 @@ export function CaseStudy() {
               </h3>
               <p className="text-[#6B7280] leading-relaxed font-light">
                 {t(
-                  'Entering Indonesia market. Local KOC content too costly. Needed authentic, culturally resonant creator content at scale.',
-                  '进入印尼市场，本土 KOC 内容成本高昂，需要有文化认同感的大规模创作者内容。'
+                  'Expanding to Japan & Korea markets. Local KOC content too costly. Needed authentic, culturally resonant creator content at scale.',
+                  '进入日本和韩国市场，本土 KOC 内容成本高昂，需要有文化认同感的大规模创作者内容。'
                 )}
               </p>
             </div>
