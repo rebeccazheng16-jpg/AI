@@ -169,30 +169,34 @@ export function ProcessDemo() {
               <div className="text-xs text-[#6B7280] font-light mb-4 tracking-wider">
                 04 / {t('Final Video', '成片')}
               </div>
-              <h3 className="text-3xl font-light text-[#1A1A1A] mb-2">
-                {t('Final Cut · Kirana × VEIRFOO', '成片 · Kirana × 薇尔肤')}
-              </h3>
-              <p className="text-sm text-[#6B7280] font-light mb-8">
-                {t('9 clips · 60s · Powered by Veo 3.1', '9 段剪辑 · 60秒 · Veo 3.1 生成')}
-              </p>
-              <div
-                className="relative w-full max-w-sm mx-auto aspect-[9/16] rounded-xl overflow-hidden bg-black group cursor-pointer"
-                onClick={togglePlay}
-              >
-                <video
-                  ref={videoRef}
-                  src="/videos/kirana_final.mp4"
-                  className="w-full h-full object-cover"
-                  onEnded={() => setIsPlaying(false)}
-                  playsInline
-                />
-                {!isPlaying && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-all duration-300">
-                    <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Play className="w-7 h-7 text-[#1A1A1A] ml-1" fill="currentColor" />
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div className="space-y-4">
+                  <h3 className="text-3xl font-light text-[#1A1A1A]">
+                    {t('Final Cut · Kirana × VEIRFOO', '成片 · Kirana × 薇尔肤')}
+                  </h3>
+                  <p className="text-sm text-[#6B7280] font-light">
+                    {t('9 clips · 60s · Powered by Veo 3.1', '9 段剪辑 · 60秒 · Veo 3.1 生成')}
+                  </p>
+                </div>
+                <div
+                  className="relative w-full max-w-[240px] mx-auto aspect-[9/16] rounded-xl overflow-hidden group cursor-pointer"
+                  onClick={togglePlay}
+                >
+                  <video
+                    ref={videoRef}
+                    src="/videos/kirana_final.mp4"
+                    className="w-full h-full object-cover"
+                    onEnded={() => setIsPlaying(false)}
+                    playsInline
+                  />
+                  {!isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/25 transition-all duration-300">
+                      <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Play className="w-7 h-7 text-[#1A1A1A] ml-1" fill="currentColor" />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </motion.div>
           </div>
