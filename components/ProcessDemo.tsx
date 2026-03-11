@@ -188,6 +188,7 @@ export function ProcessDemo() {
                     className="w-full h-full object-cover"
                     onEnded={() => setIsPlaying(false)}
                     playsInline
+                    preload="none"
                   />
                   {!isPlaying && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/25 transition-all duration-300">

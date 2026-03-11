@@ -154,6 +154,7 @@ function VideoCard({ video, onOpen }: {
           muted
           playsInline
           loop
+          preload="none"
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-all duration-300">
           <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -198,6 +199,7 @@ function VideoModal({ video, onClose }: {
             autoPlay
             playsInline
             controls
+            preload="none"
           />
         </div>
         <p className="text-center text-white/70 text-sm font-light mt-3">
