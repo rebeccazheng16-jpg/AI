@@ -92,12 +92,10 @@ export function HeroSection() {
             {[...modelImages, ...modelImages].map((img, idx) => (
               <div
                 key={idx}
-                className="h-[300px] bg-[#F9FAFB] rounded flex items-center justify-center relative overflow-hidden"
+                className="h-[300px] bg-[#F9FAFB] rounded relative overflow-hidden"
               >
+                <img src={img} alt={`Model ${(idx % 5) + 1}`} className="w-full h-full object-cover object-top" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#1A1A1A]/10" />
-                <div className="text-[#6B7280] text-sm">
-                  {t('Model Image', '模特图片')} {(idx % 5) + 1}
-                </div>
               </div>
             ))}
           </div>

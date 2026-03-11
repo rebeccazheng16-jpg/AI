@@ -5,19 +5,19 @@ import { motion } from 'framer-motion';
 import { Video } from 'lucide-react';
 
 const sceneData = [
-  { id: 'S1', scene: '看手机→抬头', dialogue: '"Guys, udah 5 orang tanya aku pakai apa..."' },
-  { id: 'S2', scene: '耸肩欲言又止', dialogue: '"Sebenernya nggak mau bilang, tapi..."' },
-  { id: 'S3', scene: '从包掏出产品', dialogue: '"Ini dia rahasianya — masker dari Veirfoo"' },
-  { id: 'S4', scene: '涂乳白色凝胶', dialogue: '"Aku pakai ini tiap malam, 15 menit sebelum tidur"' },
-  { id: 'S5', scene: '成膜后刷手机', dialogue: '"Dan rasanya kayak jelly dingin gitu di muka..."' },
-  { id: 'S6', scene: '晨光素颜水润', dialogue: '"Besok paginya, muka aku..."' },
-  { id: 'S7', scene: '手持产品悄悄话', dialogue: '"Serius deh, ini beneran ngebantu..."' },
-  { id: 'S8', scene: '低头→举起银管', dialogue: '"Ada DNA, kolagen, aman, dan nggak mahal"' },
-  { id: 'S9', scene: '指向镜头 CTA', dialogue: '"Kalau mau tau lebih, link di bio ya!"' },
+  { id: 'S1', sceneEn: 'Looking at phone → looks up', sceneZh: '看手机→抬头', dialogue: '"Guys, udah 5 orang tanya aku pakai apa..."' },
+  { id: 'S2', sceneEn: 'Shrugs, hesitates to speak', sceneZh: '耸肩欲言又止', dialogue: '"Sebenernya nggak mau bilang, tapi..."' },
+  { id: 'S3', sceneEn: 'Takes product from bag', sceneZh: '从包掏出产品', dialogue: '"Ini dia rahasianya — masker dari Veirfoo"' },
+  { id: 'S4', sceneEn: 'Applies milky gel', sceneZh: '涂乳白色凝胶', dialogue: '"Aku pakai ini tiap malam, 15 menit sebelum tidur"' },
+  { id: 'S5', sceneEn: 'Mask sets, scrolls phone', sceneZh: '成膜后刷手机', dialogue: '"Dan rasanya kayak jelly dingin gitu di muka..."' },
+  { id: 'S6', sceneEn: 'Morning glow, bare skin', sceneZh: '晨光素颜水润', dialogue: '"Besok paginya, muka aku..."' },
+  { id: 'S7', sceneEn: 'Holds product, whispers', sceneZh: '手持产品悄悄话', dialogue: '"Serius deh, ini beneran ngebantu..."' },
+  { id: 'S8', sceneEn: 'Looks down → holds up silver tube', sceneZh: '低头→举起银管', dialogue: '"Ada DNA, kolagen, aman, dan nggak mahal"' },
+  { id: 'S9', sceneEn: 'Points to camera, CTA', sceneZh: '指向镜头 CTA', dialogue: '"Kalau mau tau lebih, link di bio ya!"' },
 ];
 
 export function ProcessDemo() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section id="process" className="bg-white py-32">
@@ -102,7 +102,7 @@ export function ProcessDemo() {
                     className="bg-white border border-[#E5E7EB] rounded-lg p-6 hover:border-[#1A1A1A] transition-colors duration-300"
                   >
                     <div className="text-xs text-[#6B7280] font-light mb-3">{scene.id}</div>
-                    <div className="text-sm text-[#1A1A1A] mb-2 font-light">{scene.scene}</div>
+                    <div className="text-sm text-[#1A1A1A] mb-2 font-light">{language === 'en' ? scene.sceneEn : scene.sceneZh}</div>
                     <div className="text-xs text-[#6B7280] italic">{scene.dialogue}</div>
                   </div>
                 ))}
@@ -138,7 +138,7 @@ export function ProcessDemo() {
                         <img src={`/frames/${scene.id}_last.png`} alt={`${scene.id} last frame`} className="w-full h-full object-cover" />
                       </div>
                     </div>
-                    <div className="text-xs text-[#6B7280] text-center font-light">{scene.id}</div>
+                    <div className="text-xs text-[#6B7280] text-center font-light">{scene.id} · {language === 'en' ? scene.sceneEn : scene.sceneZh}</div>
                   </div>
                 ))}
               </div>

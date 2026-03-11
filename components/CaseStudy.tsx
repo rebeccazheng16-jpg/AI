@@ -153,11 +153,13 @@ function VideoPlayer({ video }: { video: { file: string; labelEn: string; labelZ
   return (
     <div className="space-y-2">
       <div className="relative aspect-video rounded-xl overflow-hidden bg-[#F9FAFB] border border-[#E5E7EB] group cursor-pointer">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-[#6B7280] text-xs">
-            {language === 'en' ? video.labelEn : video.labelZh}
-          </span>
-        </div>
+        <video
+          ref={videoRef}
+          src={video.file}
+          className="w-full h-full object-cover"
+          onEnded={() => setIsPlaying(false)}
+          playsInline
+        />
         <button
           onClick={togglePlay}
           className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-all duration-300"
