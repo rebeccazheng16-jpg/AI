@@ -84,11 +84,12 @@ export function HeroSection() {
             style={{ animation: 'scrollUp 40s linear infinite' }}
           >
             {[...modelImages, ...modelImages].map((img, idx) => (
-              <div key={idx} className="w-full aspect-[2/3] rounded overflow-hidden flex-shrink-0">
+              <div key={idx} className="w-full aspect-[2/3] rounded overflow-hidden flex-shrink-0 bg-[#F0EDE8]">
                 <img
                   src={img}
                   alt={`Model ${(idx % modelImages.length) + 1}`}
                   className="w-full h-full object-cover"
+                  loading={idx === 0 ? 'eager' : 'lazy'}
                 />
               </div>
             ))}

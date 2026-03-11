@@ -115,7 +115,8 @@ export function ModelGallery() {
                   <img
                     src={hoveredIndex === index ? model.turnaroundImage : model.portraitImage}
                     alt={model.name}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: 'center 15%' }}
                   />
                 </div>
 

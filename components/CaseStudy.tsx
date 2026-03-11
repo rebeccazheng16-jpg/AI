@@ -6,13 +6,13 @@ import { Play, Plus, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 const videos = [
-  { file: '/videos/yuna_video.mp4', labelEn: 'Hand-hold Demo', labelZh: '手持展示' },
-  { file: '/videos/yuki_video.mp4', labelEn: 'Voiceover Review', labelZh: '口播种草' },
+  { file: '/videos/yuna_video.mp4', poster: '/models/yuna_front.jpg', labelEn: 'Hand-hold Demo', labelZh: '手持展示' },
+  { file: '/videos/yuki_video.mp4', poster: '/models/yuki_front.jpg', labelEn: 'Voiceover Review', labelZh: '口播种草' },
 ];
 
 export function CaseStudy() {
   const { t } = useLanguage();
-  const [modalVideo, setModalVideo] = useState<{ file: string; labelEn: string; labelZh: string } | null>(null);
+  const [modalVideo, setModalVideo] = useState<{ file: string; poster: string; labelEn: string; labelZh: string } | null>(null);
 
   return (
     <section id="case-study" className="bg-white py-32">
@@ -133,7 +133,7 @@ export function CaseStudy() {
 }
 
 function VideoCard({ video, onOpen }: {
-  video: { file: string; labelEn: string; labelZh: string };
+  video: { file: string; poster: string; labelEn: string; labelZh: string };
   onOpen: () => void;
 }) {
   const { language } = useLanguage();
@@ -150,6 +150,7 @@ function VideoCard({ video, onOpen }: {
         <video
           ref={videoRef}
           src={video.file}
+          poster={video.poster}
           className="w-full h-full object-cover"
           muted
           playsInline
@@ -170,7 +171,7 @@ function VideoCard({ video, onOpen }: {
 }
 
 function VideoModal({ video, onClose }: {
-  video: { file: string; labelEn: string; labelZh: string };
+  video: { file: string; poster: string; labelEn: string; labelZh: string };
   onClose: () => void;
 }) {
   const { language } = useLanguage();
