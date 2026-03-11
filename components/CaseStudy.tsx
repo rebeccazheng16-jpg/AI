@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import { Play, Plus } from 'lucide-react';
+import { Play, Plus, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 const videos = [
@@ -12,6 +12,7 @@ const videos = [
 
 export function CaseStudy() {
   const { t } = useLanguage();
+  const [modalVideo, setModalVideo] = useState<{ file: string; labelEn: string; labelZh: string } | null>(null);
 
   return (
     <section id="case-study" className="bg-white py-32">
@@ -78,7 +79,7 @@ export function CaseStudy() {
           >
             <div className="grid grid-cols-2 gap-4">
               {videos.map((video, index) => (
-                <VideoPlayer key={index} video={video} />
+                <VideoCard key={index} video={video} onOpen={() => setModalVideo(video)} />
               ))}
             </div>
             <div className="aspect-video rounded-xl border-2 border-dashed border-[#E5E7EB] bg-[#F9FAFB] flex items-center justify-center">
@@ -102,78 +103,107 @@ export function CaseStudy() {
           <div className="flex flex-wrap items-center justify-center gap-8 text-center">
             <div>
               <div className="text-3xl font-light mb-1">9</div>
-              <div className="text-sm text-gray-400 font-light">
-                {t('Video Clips', '视频片段')}
-              </div>
+              <div className="text-sm text-gray-400 font-light">{t('Video Clips', '视频片段')}</div>
             </div>
             <div className="w-px h-12 bg-gray-700" />
             <div>
               <div className="text-3xl font-light mb-1">62</div>
-              <div className="text-sm text-gray-400 font-light">
-                {t('Seconds Total', '总秒数')}
-              </div>
+              <div className="text-sm text-gray-400 font-light">{t('Seconds Total', '总秒数')}</div>
             </div>
             <div className="w-px h-12 bg-gray-700" />
             <div>
               <div className="text-3xl font-light mb-1">5</div>
-              <div className="text-sm text-gray-400 font-light">
-                {t('Languages Ready', '语言就绪')}
-              </div>
+              <div className="text-sm text-gray-400 font-light">{t('Languages Ready', '语言就绪')}</div>
             </div>
             <div className="w-px h-12 bg-gray-700" />
             <div>
               <div className="text-3xl font-light mb-1">1</div>
-              <div className="text-sm text-gray-400 font-light">
-                {t('AI Model', 'AI 创作者')}
-              </div>
+              <div className="text-sm text-gray-400 font-light">{t('AI Model', 'AI 创作者')}</div>
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Modal */}
+      {modalVideo && (
+        <VideoModal video={modalVideo} onClose={() => setModalVideo(null)} />
+      )}
     </section>
   );
 }
 
-function VideoPlayer({ video }: { video: { file: string; labelEn: string; labelZh: string } }) {
+function VideoCard({ video, onOpen }: {
+  video: { file: string; labelEn: string; labelZh: string };
+  onOpen: () => void;
+}) {
   const { language } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   return (
     <div className="space-y-2">
-      <div className="relative aspect-video rounded-xl overflow-hidden bg-[#F9FAFB] border border-[#E5E7EB] group cursor-pointer">
+      <div
+        className="relative aspect-[9/16] rounded-xl overflow-hidden bg-[#F9FAFB] border border-[#E5E7EB] group cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+        onClick={onOpen}
+        onMouseEnter={() => videoRef.current?.play()}
+        onMouseLeave={() => { if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; } }}
+      >
         <video
           ref={videoRef}
           src={video.file}
           className="w-full h-full object-cover"
-          onEnded={() => setIsPlaying(false)}
+          muted
           playsInline
+          loop
         />
-        <button
-          onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-all duration-300"
-        >
-          {!isPlaying && (
-            <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Play className="w-5 h-5 text-[#1A1A1A] ml-1" fill="currentColor" />
-            </div>
-          )}
-        </button>
+        <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-all duration-300">
+          <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <Play className="w-5 h-5 text-[#1A1A1A] ml-1" fill="currentColor" />
+          </div>
+        </div>
       </div>
-      <p className="text-xs text-[#6B7280] font-light">
+      <p className="text-xs text-[#6B7280] font-light text-center">
         {language === 'en' ? video.labelEn : video.labelZh}
       </p>
+    </div>
+  );
+}
+
+function VideoModal({ video, onClose }: {
+  video: { file: string; labelEn: string; labelZh: string };
+  onClose: () => void;
+}) {
+  const { language } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-sm mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute -top-10 right-0 text-white/70 hover:text-white transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
+        <div className="aspect-[9/16] rounded-xl overflow-hidden bg-black">
+          <video
+            ref={videoRef}
+            src={video.file}
+            className="w-full h-full object-cover"
+            autoPlay
+            playsInline
+            controls
+          />
+        </div>
+        <p className="text-center text-white/70 text-sm font-light mt-3">
+          {language === 'en' ? video.labelEn : video.labelZh}
+        </p>
+      </div>
     </div>
   );
 }

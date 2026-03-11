@@ -2,7 +2,8 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import { Video } from 'lucide-react';
+import { Play, Video } from 'lucide-react';
+import { useRef, useState } from 'react';
 
 const sceneData = [
   { id: 'S1', sceneEn: 'Looking at phone → looks up', sceneZh: '看手机→抬头', dialogue: '"Guys, udah 5 orang tanya aku pakai apa..."' },
@@ -18,6 +19,19 @@ const sceneData = [
 
 export function ProcessDemo() {
   const { t, language } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <section id="process" className="bg-white py-32">
@@ -151,27 +165,34 @@ export function ProcessDemo() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="relative pl-20"
             >
-              <div className="absolute left-[1.6rem] top-0 w-3 h-3 rounded-full bg-[#6B7280] animate-pulse" />
+              <div className="absolute left-[1.6rem] top-0 w-3 h-3 rounded-full bg-green-500" />
               <div className="text-xs text-[#6B7280] font-light mb-4 tracking-wider">
-                04 / {t('Video', '视频')}
+                04 / {t('Final Video', '成片')}
               </div>
               <h3 className="text-3xl font-light text-[#1A1A1A] mb-2">
-                {t('Video Generation', '视频生成')}
+                {t('Final Cut · Kirana × VEIRFOO', '成片 · Kirana × 薇尔肤')}
               </h3>
               <p className="text-sm text-[#6B7280] font-light mb-8">
-                {t('Powered by Veo 3.1 · In Progress', 'Veo 3.1 生成中')}
+                {t('9 clips · 60s · Powered by Veo 3.1', '9 段剪辑 · 60秒 · Veo 3.1 生成')}
               </p>
-              <div className="border-2 border-dashed border-[#E5E7EB] rounded-lg bg-[#F9FAFB] p-16 flex flex-col items-center justify-center">
-                <Video className="w-12 h-12 text-[#6B7280] mb-6" strokeWidth={1} />
-                <p className="text-lg text-[#1A1A1A] font-light mb-2">
-                  {t('9 video clips · Generating with Veo 3.1', '9 段视频 · Veo 3.1 生成中')}
-                </p>
-                <div className="flex items-center gap-2 mt-4">
-                  <div className="w-2 h-2 rounded-full bg-[#6B7280] animate-pulse" />
-                  <span className="text-sm text-[#6B7280] font-light">
-                    {t('This section will update as videos are completed.', '此部分将在视频完成后更新。')}
-                  </span>
-                </div>
+              <div
+                className="relative w-full max-w-sm mx-auto aspect-[9/16] rounded-xl overflow-hidden bg-black group cursor-pointer"
+                onClick={togglePlay}
+              >
+                <video
+                  ref={videoRef}
+                  src="/videos/kirana_final.mp4"
+                  className="w-full h-full object-cover"
+                  onEnded={() => setIsPlaying(false)}
+                  playsInline
+                />
+                {!isPlaying && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Play className="w-7 h-7 text-[#1A1A1A] ml-1" fill="currentColor" />
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           </div>
