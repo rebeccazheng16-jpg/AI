@@ -60,18 +60,16 @@ export function ProcessDemo() {
               </h3>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-white border border-[#E5E7EB] rounded-lg p-8 flex flex-col items-center justify-center">
-                  <div className="h-64 w-full bg-[#F9FAFB] rounded flex items-center justify-center mb-4">
-                    <span className="text-[#6B7280] text-sm">
-                      {t('Product Image', '产品图片')}
-                    </span>
+                  <div className="h-64 w-full rounded overflow-hidden mb-4">
+                    <img src="/veirfoo_product.jpg" alt="VEIRFOO product" className="w-full h-full object-contain" />
                   </div>
                   <p className="text-sm text-[#6B7280] text-center font-light">
                     VEIRFOO · {t('Sodium DNA Water Light Collagen Mask · 65g', 'PDRN 水光胶原面膜 · 65g')}
                   </p>
                 </div>
                 <div className="bg-white border border-[#E5E7EB] rounded-lg p-8 flex flex-col items-center justify-center">
-                  <div className="h-64 w-full bg-[#F9FAFB] rounded flex items-center justify-center mb-4">
-                    <span className="text-[#6B7280] text-sm">Kirana</span>
+                  <div className="h-64 w-full rounded overflow-hidden mb-4">
+                    <img src="/models/kirana_front.jpg" alt="Kirana" className="w-full h-full object-cover object-top" />
                   </div>
                   <div className="text-center space-y-1">
                     <p className="text-sm text-[#1A1A1A] font-light">Kirana × 🇮🇩 Indonesia</p>
@@ -131,13 +129,13 @@ export function ProcessDemo() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {sceneData.map((scene) => (
                   <div key={scene.id} className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="aspect-[9/16] w-full bg-[#F9FAFB] rounded border border-[#E5E7EB] flex items-center justify-center">
-                        <span className="text-xs text-[#6B7280]">{scene.id} First</span>
+                    <div className="flex items-center gap-2">
+                      <div className="aspect-[9/16] w-full rounded overflow-hidden border border-[#E5E7EB]">
+                        <img src={`/frames/${scene.id}_first.png`} alt={`${scene.id} first frame`} className="w-full h-full object-cover" />
                       </div>
-                      <span className="text-[#6B7280]">→</span>
-                      <div className="aspect-[9/16] w-full bg-[#F9FAFB] rounded border border-[#E5E7EB] flex items-center justify-center">
-                        <span className="text-xs text-[#6B7280]">{scene.id} Last</span>
+                      <span className="text-[#6B7280] flex-shrink-0">→</span>
+                      <div className="aspect-[9/16] w-full rounded overflow-hidden border border-[#E5E7EB]">
+                        <img src={`/frames/${scene.id}_last.png`} alt={`${scene.id} last frame`} className="w-full h-full object-cover" />
                       </div>
                     </div>
                     <div className="text-xs text-[#6B7280] text-center font-light">{scene.id}</div>

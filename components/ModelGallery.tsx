@@ -107,16 +107,16 @@ export function ModelGallery() {
             >
               <div className="flex h-full">
                 <div
-                  className="relative bg-[#F9FAFB] transition-all duration-400 ease-out overflow-hidden flex items-center justify-center"
+                  className="relative bg-[#F9FAFB] transition-all duration-400 ease-out overflow-hidden"
                   style={{
                     width: hoveredIndex === index ? '60%' : '28%',
                   }}
                 >
-                  <div className="text-[#6B7280] text-sm">
-                    {hoveredIndex === index
-                      ? t('Turnaround View', '三视图')
-                      : t('Portrait', '肖像')}
-                  </div>
+                  <img
+                    src={hoveredIndex === index ? model.turnaroundImage : model.portraitImage}
+                    alt={model.name}
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
 
                 <div
