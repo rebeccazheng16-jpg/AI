@@ -145,11 +145,11 @@ export function ProcessDemo() {
                   <div key={scene.id} className="space-y-3">
                     <div className="flex items-center gap-2">
                       <div className="aspect-[9/16] w-full rounded overflow-hidden border border-[#E5E7EB]">
-                        <img src={`/frames/${scene.id}_first.png`} alt={`${scene.id} first frame`} className="w-full h-full object-cover" />
+                        <img src={`/frames/${scene.id}_first.jpg`} alt={`${scene.id} first frame`} className="w-full h-full object-cover" />
                       </div>
                       <span className="text-[#6B7280] flex-shrink-0">→</span>
                       <div className="aspect-[9/16] w-full rounded overflow-hidden border border-[#E5E7EB]">
-                        <img src={`/frames/${scene.id}_last.png`} alt={`${scene.id} last frame`} className="w-full h-full object-cover" />
+                        <img src={`/frames/${scene.id}_last.jpg`} alt={`${scene.id} last frame`} className="w-full h-full object-cover" />
                       </div>
                     </div>
                     <div className="text-xs text-[#6B7280] text-center font-light">{scene.id} · {language === 'en' ? scene.sceneEn : scene.sceneZh}</div>

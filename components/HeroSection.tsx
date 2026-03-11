@@ -42,7 +42,8 @@ export function HeroSection() {
           </div>
 
           <h1 className="text-7xl font-light text-[#1A1A1A] leading-tight tracking-tight">
-            {t('One Brand. One Click.', '一个品牌，一键出海')}
+            <span className="block">One Brand.</span>
+            <span className="block">One Click.</span>
           </h1>
 
           <p className="text-lg text-[#6B7280] leading-relaxed font-light max-w-xl">
