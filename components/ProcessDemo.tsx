@@ -1,0 +1,184 @@
+'use client';
+
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { Video } from 'lucide-react';
+
+const sceneData = [
+  { id: 'S1', scene: '看手机→抬头', dialogue: '"Guys, udah 5 orang tanya aku pakai apa..."' },
+  { id: 'S2', scene: '耸肩欲言又止', dialogue: '"Sebenernya nggak mau bilang, tapi..."' },
+  { id: 'S3', scene: '从包掏出产品', dialogue: '"Ini dia rahasianya — masker dari Veirfoo"' },
+  { id: 'S4', scene: '涂乳白色凝胶', dialogue: '"Aku pakai ini tiap malam, 15 menit sebelum tidur"' },
+  { id: 'S5', scene: '成膜后刷手机', dialogue: '"Dan rasanya kayak jelly dingin gitu di muka..."' },
+  { id: 'S6', scene: '晨光素颜水润', dialogue: '"Besok paginya, muka aku..."' },
+  { id: 'S7', scene: '手持产品悄悄话', dialogue: '"Serius deh, ini beneran ngebantu..."' },
+  { id: 'S8', scene: '低头→举起银管', dialogue: '"Ada DNA, kolagen, aman, dan nggak mahal"' },
+  { id: 'S9', scene: '指向镜头 CTA', dialogue: '"Kalau mau tau lebih, link di bio ya!"' },
+];
+
+export function ProcessDemo() {
+  const { t } = useLanguage();
+
+  return (
+    <section id="process" className="bg-white py-32">
+      <div className="max-w-[1400px] mx-auto px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-5xl font-light text-[#1A1A1A] mb-4">
+            {t('See the Pipeline in Action', '实际工作流程')}
+          </h2>
+          <p className="text-lg text-[#6B7280] font-light">
+            {t(
+              'A real production case — VEIRFOO × Kirana × Indonesia',
+              '真实案例演示 — 薇尔肤 × Kirana × 印尼市场'
+            )}
+          </p>
+        </motion.div>
+
+        <div className="relative">
+          <div className="absolute left-8 top-0 bottom-0 w-px bg-[#E5E7EB]" />
+
+          <div className="space-y-16">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="relative pl-20"
+            >
+              <div className="absolute left-[1.6rem] top-0 w-3 h-3 rounded-full bg-[#1A1A1A]" />
+              <div className="text-xs text-[#6B7280] font-light mb-4 tracking-wider">
+                01 / {t('Brief', '简报')}
+              </div>
+              <h3 className="text-3xl font-light text-[#1A1A1A] mb-8">
+                {t('Product + Creator', '产品简报 + 创作者选择')}
+              </h3>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="bg-white border border-[#E5E7EB] rounded-lg p-8 flex flex-col items-center justify-center">
+                  <div className="h-64 w-full bg-[#F9FAFB] rounded flex items-center justify-center mb-4">
+                    <span className="text-[#6B7280] text-sm">
+                      {t('Product Image', '产品图片')}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#6B7280] text-center font-light">
+                    VEIRFOO · {t('Sodium DNA Water Light Collagen Mask · 65g', 'PDRN 水光胶原面膜 · 65g')}
+                  </p>
+                </div>
+                <div className="bg-white border border-[#E5E7EB] rounded-lg p-8 flex flex-col items-center justify-center">
+                  <div className="h-64 w-full bg-[#F9FAFB] rounded flex items-center justify-center mb-4">
+                    <span className="text-[#6B7280] text-sm">Kirana</span>
+                  </div>
+                  <div className="text-center space-y-1">
+                    <p className="text-sm text-[#1A1A1A] font-light">Kirana × 🇮🇩 Indonesia</p>
+                    <p className="text-xs text-[#6B7280] font-light">
+                      {t('Luxury lifestyle · Muslim-friendly · Bahasa Indonesia', '奢华生活方式 · 穆斯林友好 · 印尼语')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative pl-20"
+            >
+              <div className="absolute left-[1.6rem] top-0 w-3 h-3 rounded-full bg-[#1A1A1A]" />
+              <div className="text-xs text-[#6B7280] font-light mb-4 tracking-wider">
+                02 / {t('Script', '脚本')}
+              </div>
+              <h3 className="text-3xl font-light text-[#1A1A1A] mb-4">
+                {t('Template 3 — "Best Friend Recommendation"', '脚本模板 3 ——「闺蜜安利型」')}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                {sceneData.map((scene) => (
+                  <div
+                    key={scene.id}
+                    className="bg-white border border-[#E5E7EB] rounded-lg p-6 hover:border-[#1A1A1A] transition-colors duration-300"
+                  >
+                    <div className="text-xs text-[#6B7280] font-light mb-3">{scene.id}</div>
+                    <div className="text-sm text-[#1A1A1A] mb-2 font-light">{scene.scene}</div>
+                    <div className="text-xs text-[#6B7280] italic">{scene.dialogue}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="relative pl-20"
+            >
+              <div className="absolute left-[1.6rem] top-0 w-3 h-3 rounded-full bg-[#1A1A1A]" />
+              <div className="text-xs text-[#6B7280] font-light mb-4 tracking-wider">
+                03 / {t('Keyframes', '关键帧')}
+              </div>
+              <h3 className="text-3xl font-light text-[#1A1A1A] mb-2">
+                {t('AI-Generated First & Last Frames', 'AI 生成首尾帧')}
+              </h3>
+              <p className="text-sm text-[#6B7280] font-light mb-8">
+                {t('18 keyframes · 9 segment pairs · Generated by Gemini', '18 张 · 9 对 · Gemini 生成')}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {sceneData.map((scene) => (
+                  <div key={scene.id} className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="aspect-[9/16] w-full bg-[#F9FAFB] rounded border border-[#E5E7EB] flex items-center justify-center">
+                        <span className="text-xs text-[#6B7280]">{scene.id} First</span>
+                      </div>
+                      <span className="text-[#6B7280]">→</span>
+                      <div className="aspect-[9/16] w-full bg-[#F9FAFB] rounded border border-[#E5E7EB] flex items-center justify-center">
+                        <span className="text-xs text-[#6B7280]">{scene.id} Last</span>
+                      </div>
+                    </div>
+                    <div className="text-xs text-[#6B7280] text-center font-light">{scene.id}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="relative pl-20"
+            >
+              <div className="absolute left-[1.6rem] top-0 w-3 h-3 rounded-full bg-[#6B7280] animate-pulse" />
+              <div className="text-xs text-[#6B7280] font-light mb-4 tracking-wider">
+                04 / {t('Video', '视频')}
+              </div>
+              <h3 className="text-3xl font-light text-[#1A1A1A] mb-2">
+                {t('Video Generation', '视频生成')}
+              </h3>
+              <p className="text-sm text-[#6B7280] font-light mb-8">
+                {t('Powered by Veo 3.1 · In Progress', 'Veo 3.1 生成中')}
+              </p>
+              <div className="border-2 border-dashed border-[#E5E7EB] rounded-lg bg-[#F9FAFB] p-16 flex flex-col items-center justify-center">
+                <Video className="w-12 h-12 text-[#6B7280] mb-6" strokeWidth={1} />
+                <p className="text-lg text-[#1A1A1A] font-light mb-2">
+                  {t('9 video clips · Generating with Veo 3.1', '9 段视频 · Veo 3.1 生成中')}
+                </p>
+                <div className="flex items-center gap-2 mt-4">
+                  <div className="w-2 h-2 rounded-full bg-[#6B7280] animate-pulse" />
+                  <span className="text-sm text-[#6B7280] font-light">
+                    {t('This section will update as videos are completed.', '此部分将在视频完成后更新。')}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
