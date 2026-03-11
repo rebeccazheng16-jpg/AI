@@ -3,22 +3,12 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 
-// Column 1: Kirana · Yuki · Yuna — never appear in col2
-const col1Images = [
+const modelImages = [
   '/models/kirana_front.jpg',
-  '/models/kirana_turnaround.jpg',
   '/models/yuki_front.jpg',
-  '/models/yuki_turnaround.jpg',
   '/models/yuna_front.jpg',
-  '/models/yuna_turnaround.jpg',
-];
-
-// Column 2: Hoa · Lily — never appear in col1
-const col2Images = [
   '/models/hoa_front.jpg',
-  '/models/hoa_turnaround.jpg',
   '/models/lily_front.jpg',
-  '/models/lily_turnaround.jpg',
 ];
 
 export function HeroSection() {
@@ -79,41 +69,28 @@ export function HeroSection() {
         </motion.div>
 
         <motion.div
-          className="w-[45%] h-[80vh] relative overflow-hidden flex gap-3"
+          className="w-[45%] h-[80vh] relative overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
         >
-          {/* top & bottom fade masks */}
-          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
+          {/* top & bottom fade */}
+          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
 
-          {/* Column 1 — slow */}
-          <div className="flex-1 overflow-hidden">
-            <div
-              className="flex flex-col gap-3"
-              style={{ animation: 'scrollUp 28s linear infinite' }}
-            >
-              {[...col1Images, ...col1Images].map((img, idx) => (
-                <div key={idx} className="w-full aspect-[2/3] rounded overflow-hidden flex-shrink-0">
-                  <img src={img} alt={`Model ${(idx % 5) + 1}`} className="w-full h-full object-cover object-top" />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Column 2 — faster, offset */}
-          <div className="flex-1 overflow-hidden">
-            <div
-              className="flex flex-col gap-3"
-              style={{ animation: 'scrollUp 20s linear infinite', marginTop: '-120px' }}
-            >
-              {[...col2Images, ...col2Images].map((img, idx) => (
-                <div key={idx} className="w-full aspect-[2/3] rounded overflow-hidden flex-shrink-0">
-                  <img src={img} alt={`Model ${(idx % 5) + 1}`} className="w-full h-full object-cover object-top" />
-                </div>
-              ))}
-            </div>
+          <div
+            className="flex flex-col gap-4"
+            style={{ animation: 'scrollUp 40s linear infinite' }}
+          >
+            {[...modelImages, ...modelImages].map((img, idx) => (
+              <div key={idx} className="w-full aspect-[2/3] rounded overflow-hidden flex-shrink-0">
+                <img
+                  src={img}
+                  alt={`Model ${(idx % modelImages.length) + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
