@@ -63,7 +63,7 @@ export function CaseStudy() {
               <p className="text-[#6B7280] leading-relaxed font-light">
                 {t(
                   'Entering Indonesia market. Local KOC content too costly. Needed authentic, culturally resonant creator content at scale.',
-                  '进入印尼市场，本土 KOC 内容成本高企，需要有文化认同感的大规模创作者内容。'
+                  '进入印尼市场，本土 KOC 内容成本高昂，需要有文化认同感的大规模创作者内容。'
                 )}
               </p>
             </div>
