@@ -101,7 +101,7 @@ export function ModelGallery() {
             <div
               key={model.name}
               className="relative border-b border-[#E5E7EB] overflow-hidden"
-              style={{ height: '220px' }}
+              style={{ height: '280px' }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -115,8 +115,7 @@ export function ModelGallery() {
                   <img
                     src={hoveredIndex === index ? model.turnaroundImage : model.portraitImage}
                     alt={model.name}
-                    className="w-full h-full object-cover"
-                    style={{ objectPosition: 'center 15%' }}
+                    className={`w-full h-full ${hoveredIndex === index ? 'object-contain' : 'object-cover object-top'}`}
                   />
                 </div>
 
