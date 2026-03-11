@@ -33,7 +33,7 @@ export function HeroSection() {
       <div className="max-w-[1400px] mx-auto px-8 w-full flex items-center gap-12">
         <motion.div
           className="w-[55%] space-y-8"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
@@ -70,7 +70,7 @@ export function HeroSection() {
 
         <motion.div
           className="w-[45%] h-[80vh] relative overflow-hidden"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
         >
