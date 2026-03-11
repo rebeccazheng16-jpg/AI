@@ -3,20 +3,22 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 
+// Column 1: Kirana · Yuki · Yuna — never appear in col2
 const col1Images = [
   '/models/kirana_front.jpg',
+  '/models/kirana_turnaround.jpg',
   '/models/yuki_front.jpg',
+  '/models/yuki_turnaround.jpg',
   '/models/yuna_front.jpg',
-  '/models/hoa_front.jpg',
-  '/models/lily_front.jpg',
+  '/models/yuna_turnaround.jpg',
 ];
 
+// Column 2: Hoa · Lily — never appear in col1
 const col2Images = [
-  '/models/yuna_front.jpg',
-  '/models/kirana_turnaround.jpg',
-  '/models/yuki_turnaround.jpg',
-  '/models/lily_front.jpg',
   '/models/hoa_front.jpg',
+  '/models/hoa_turnaround.jpg',
+  '/models/lily_front.jpg',
+  '/models/lily_turnaround.jpg',
 ];
 
 export function HeroSection() {
