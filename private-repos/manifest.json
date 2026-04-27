@@ -1,0 +1,18 @@
+[
+  {
+    "name": "my-claude-skills",
+    "source_path": "/Users/zhengrebecca/.claude/skills",
+    "origin": "https://github.com/rebeccazheng16-jpg/my-claude-skills.git",
+    "branch": "master",
+    "commit": "9a0292edf67a8fe7c2146bfdf5752e12f390487d",
+    "file_count": 322
+  },
+  {
+    "name": "video-clip-assembler",
+    "source_path": "/Users/zhengrebecca/.claude/skills/video-clip-assembler",
+    "origin": "https://github.com/rebeccazheng16-jpg/video-clip-assembler.git",
+    "branch": "main",
+    "commit": "be36566a2f8a15f0310e8c6cc781e40766224748",
+    "file_count": 22
+  }
+]

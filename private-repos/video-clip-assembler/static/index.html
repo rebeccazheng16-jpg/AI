@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>if(!document.cookie.includes('sid='))document.cookie='sid='+crypto.randomUUID()+';path=/;SameSite=Lax;max-age=31536000';</script>
+  <title>Video Clip Assembler</title>
+  <link rel="stylesheet" href="/style.css?v=20260415d">
+</head>
+<body>
+  <div class="container">
+    <div class="lang-switcher">
+      <select id="uiLang" onchange="switchLang(this.value)">
+        <option value="zh">中文</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+
+    <!-- Module Selector -->
+    <div id="moduleSelector" class="module-selector">
+      <h1>Video Toolkit</h1>
+      <p class="subtitle">Select a module to get started</p>
+      <div class="module-cards">
+        <div class="module-card" onclick="showModule(1)">
+          <div class="module-icon">&#x1F3AC;</div>
+          <h3 data-i18n="mod1_title">Video Clip Assembler</h3>
+          <p data-i18n="mod1_desc">Upload - Transcribe - Select - Sort - Build</p>
+        </div>
+        <div class="module-card" onclick="showModule(2)">
+          <div class="module-icon">&#x2728;</div>
+          <h3 data-i18n="mod2_title">AI Remix</h3>
+          <p data-i18n="mod2_desc">Script - AI Frames - Video Gen - Assembly</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 1: Video Clip Assembler -->
+    <div id="module1" style="display:none">
+    <h1>Video Clip Assembler</h1>
+    <p class="subtitle" data-i18n="subtitle">上传采访片段 → 转录翻译 → 勾选排序 → 自动剪辑</p>
+
+    <div class="nav-dots" id="navDots"></div>
+
+    <!-- Step 1: Upload -->
+    <div class="step active" id="step1">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <div class="step-title" data-i18n="step1_title">上传视频片段</div>
+      </div>
+
+      <div class="upload-area" id="uploadArea">
+        <div class="icon">&#x1F4F9;</div>
+        <p data-i18n="upload_hint">拖放视频文件到这里，或点击选择</p>
+        <p style="font-size:12px; margin-top:4px; color:#555" data-i18n="upload_formats">支持 mp4 / mov / webm，可多次添加</p>
+      </div>
+      <input type="file" id="fileInput" multiple accept="video/*" style="display:none">
+
+      <div class="file-list" id="fileList"></div>
+
+      <!-- Language selector -->
+      <div class="vocab-section">
+        <label class="vocab-label" data-i18n="audio_lang">音频语言</label>
+        <select class="vocab-input" id="langSelect">
+          <option value="id" data-i18n="lang_id">印尼语 (Indonesian)</option>
+          <option value="ko" data-i18n="lang_ko">韩语 (Korean)</option>
+          <option value="ja" data-i18n="lang_ja">日语 (Japanese)</option>
+          <option value="zh" data-i18n="lang_zh">中文 (Chinese)</option>
+          <option value="auto" data-i18n="lang_auto">自动检测</option>
+        </select>
+      </div>
+
+      <!-- Vocabulary input -->
+      <div class="vocab-section">
+        <label class="vocab-label" data-i18n="vocab_label">专有名词（可选）</label>
+        <input class="vocab-input" id="vocabInput" data-i18n-placeholder="vocab_placeholder" placeholder="品牌名、人名等，逗号分隔。例：Veirfoo, PDRN, Tulandut">
+        <p class="vocab-hint" data-i18n="vocab_hint">帮助 Gemini 准确识别不常见的词汇</p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btnUpload" disabled data-i18n="btn_upload">上传并开始转录</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Transcribing -->
+    <div class="step" id="step2">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <div class="step-title" data-i18n="step2_title">转录 + 翻译</div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <p class="status-text" id="statusText" data-i18n="status_preparing">准备中...</p>
+    </div>
+
+    <!-- Step 3: Select sentences -->
+    <div class="step" id="step3">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <div class="step-title" data-i18n="step3_title">勾选需要的句子</div>
+      </div>
+
+      <!-- Violation Check Summary -->
+      <div class="violation-summary clean" id="violationSummary">
+        <span class="violation-icon">&#x2705;</span>
+        <span data-i18n="violation_summary_clean">未检测到违禁词</span>
+      </div>
+
+      <div class="select-controls">
+        <a onclick="selectAll()" data-i18n="btn_select_all">全选</a>
+        <a onclick="selectNone()" data-i18n="btn_select_none">全不选</a>
+      </div>
+
+      <div id="sentenceList"></div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="goToStep(1)" data-i18n="btn_back_upload">返回上传</button>
+        <button class="btn btn-primary" id="btnToSort" onclick="goToSort()" data-i18n="btn_next_sort">下一步：排序</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Sort -->
+    <div class="step" id="step4">
+      <div class="step-header">
+        <div class="step-number">4</div>
+        <div class="step-title" data-i18n="step4_title">拖拽调整顺序</div>
+      </div>
+
+      <p class="sort-hint" data-i18n="sort_hint">拖动片段标题调整整组顺序，拖动单句在组内/跨组移动</p>
+
+      <div class="sort-groups" id="sortGroups"></div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="goToStep(3)" data-i18n="btn_back_select">返回勾选</button>
+        <button class="btn btn-primary" onclick="goToKeywords()" data-i18n="btn_next_keywords">下一步：关键词</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Keywords -->
+    <div class="step" id="step5">
+      <div class="step-header">
+        <div class="step-number">5</div>
+        <div class="step-title" data-i18n="step5_title">关键词高亮</div>
+      </div>
+
+      <p style="font-size:13px; color:#888; margin-bottom:12px" data-i18n="keyword_desc">选择自动分类或手动输入关键词。高亮词在字幕中放大+黄色显示。</p>
+
+      <!-- Category chips -->
+      <div class="category-chips" id="categoryChips">
+        <span class="chip" data-cat="numbers" onclick="toggleChip(this)" data-i18n="chip_numbers">数字</span>
+        <span class="chip" data-cat="money" onclick="toggleChip(this)" data-i18n="chip_money">金额</span>
+        <span class="chip" data-cat="time" onclick="toggleChip(this)" data-i18n="chip_time">时间</span>
+        <span class="chip" data-cat="age" onclick="toggleChip(this)" data-i18n="chip_age">年龄</span>
+        <span class="chip" data-cat="brand" onclick="toggleChip(this)" data-i18n="chip_brand">品牌名</span>
+        <span class="chip" data-cat="emotion" onclick="toggleChip(this)" data-i18n="chip_emotion">强调词</span>
+      </div>
+
+      <div class="btn-group" style="margin-bottom:12px">
+        <button class="btn btn-secondary" id="btnAutoKw" onclick="autoKeywords()" data-i18n="btn_auto_detect">自动识别分类</button>
+      </div>
+
+      <div class="keyword-auto-results" id="keywordAutoResults"></div>
+
+      <div class="divider"></div>
+
+      <label style="font-size:13px; color:#888; margin-bottom:6px; display:block" data-i18n="manual_keyword_label">或手动输入中文关键词：</label>
+      <input class="keyword-input" id="keywordInput" data-i18n-placeholder="keyword_placeholder" placeholder="例：真的, 百万, 一天">
+
+      <div class="btn-group" style="margin-bottom:16px">
+        <button class="btn btn-secondary" id="btnMatchKw" onclick="matchKeywords()" data-i18n="btn_match_keywords">匹配关键词</button>
+      </div>
+
+      <div class="keyword-matches" id="keywordMatches"></div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="goToStep(4)" data-i18n="btn_back_sort">返回排序</button>
+        <button class="btn btn-primary" id="btnBuild" onclick="buildVideo()" data-i18n="btn_build_video">生成视频</button>
+      </div>
+    </div>
+
+    <!-- Step 6: Build & Download -->
+    <div class="step" id="step6">
+      <div class="step-header">
+        <div class="step-number">6</div>
+        <div class="step-title" data-i18n="step6_title">生成视频</div>
+      </div>
+
+      <div class="btn-group" id="step6Back" style="margin-bottom:12px">
+        <button class="btn btn-secondary" onclick="goToStep(5)" data-i18n="btn_back_keywords">返回关键词</button>
+      </div>
+
+      <div id="buildProgress">
+        <div class="build-stages" id="buildStages">
+          <div class="build-stage" data-stage="trimming"><span class="stage-icon">&#x25CB;</span> <span data-i18n="stage_trimming">裁剪片段</span></div>
+          <div class="build-stage" data-stage="concat"><span class="stage-icon">&#x25CB;</span> <span data-i18n="stage_concat">拼接视频</span></div>
+          <div class="build-stage" data-stage="subtitle"><span class="stage-icon">&#x25CB;</span> <span data-i18n="stage_subtitle">生成字幕</span></div>
+          <div class="build-stage" data-stage="burning"><span class="stage-icon">&#x25CB;</span> <span data-i18n="stage_burning">烧录字幕</span></div>
+          <div class="build-stage" data-stage="compressing"><span class="stage-icon">&#x25CB;</span> <span data-i18n="stage_compressing">压缩输出</span></div>
+        </div>
+        <div class="progress-bar">
+          <div class="fill" id="buildProgressFill" style="width:0%"></div>
+        </div>
+        <p class="status-text" id="buildStatusText" data-i18n="status_building">构建中...</p>
+      </div>
+
+      <div id="subtitleChoice" style="display:none">
+        <p style="font-size:14px; color:#262626; margin-bottom:16px; text-align:center" data-i18n="subtitle_choice_prompt">拼接完成！是否需要自动烧录字幕？</p>
+        <div class="btn-group" style="justify-content:center">
+          <button class="btn btn-primary" onclick="continueWithSubtitle()" data-i18n="btn_add_subtitle">加字幕</button>
+          <button class="btn btn-secondary" onclick="continueWithoutSubtitle()" data-i18n="btn_download_no_subtitle">直接下载（不加字幕）</button>
+        </div>
+      </div>
+
+      <div class="download-area" id="downloadArea" style="display:none">
+        <div class="icon">&#x2705;</div>
+        <p id="downloadInfo" data-i18n="download_complete">视频生成完成！</p>
+        <a class="btn btn-primary" href="/api/download" download data-i18n="btn_download_video">下载视频</a>
+      </div>
+    </div>
+    </div><!-- /module1 -->
+
+    <!-- Module 2: AI Remix -->
+    <div id="module2" style="display:none">
+      <a class="back-to-modules" onclick="showModule(0)" data-i18n="btn_back">&#x2190; Back</a>
+      <h1>AI Remix</h1>
+      <p class="subtitle" data-i18n="remix_subtitle">Script - AI Frames - Seedance Video - Assembly</p>
+      <div class="remix-nav-dots" id="remixNavDots"></div>
+
+      <!-- Remix Step 0: Asset Library -->
+      <div class="step" id="remixStep0">
+        <div class="step-header">
+          <div class="step-number">0</div>
+          <div class="step-title" data-i18n="remix_s0_title">Asset Library Setup</div>
+        </div>
+        <div id="libraryStatus"></div>
+        <div id="serverClipList" class="file-list" style="margin-bottom:8px;"></div>
+        <div class="upload-area" id="remixUploadArea">
+          <div class="icon">&#x1F4C1;</div>
+          <p data-i18n="remix_upload_hint">Upload clips (min 2, 8s each)</p>
+        </div>
+        <input type="file" id="remixFileInput" multiple accept="video/*" style="display:none">
+        <div id="remixFileList" class="file-list"></div>
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btnInitLib" onclick="remixInitLibrary()" data-i18n="remix_create_lib">Upload &amp; Continue</button>
+          <button class="btn btn-primary" id="btnFinalizeLib" onclick="remixFinalizeLibrary()" style="display:none" data-i18n="remix_verify">Verify &amp; Continue</button>
+          <button class="btn btn-primary" id="btnSkipToScript" onclick="remixGoToStep(2)" style="display:none" data-i18n="remix_next_script">Next: Write Script</button>
+        </div>
+      </div>
+
+      <!-- Remix Step 1: Video Type -->
+      <div class="step" id="remixStep1">
+        <div class="step-header">
+          <div class="step-number">1</div>
+          <div class="step-title" data-i18n="remix_s1_title">Select Video Type</div>
+        </div>
+        <div class="module-cards" style="justify-content:center">
+          <div class="module-card active" style="max-width:280px">
+            <div class="module-icon">&#x1F4BC;</div>
+            <h3 data-i18n="remix_invest_video">Investment Video</h3>
+            <p data-i18n="remix_invest_desc">40s: 16s AI + 16s B-roll + 8s CTA</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="remixGoToStep(0)" data-i18n="btn_back">Back</button>
+          <button class="btn btn-primary" onclick="remixGoToStep(2)" data-i18n="remix_next_script">Next: Write Script</button>
+        </div>
+      </div>
+
+      <!-- Remix Step 2: Script Editor -->
+      <div class="step" id="remixStep2">
+        <div class="step-header">
+          <div class="step-number">2</div>
+          <div class="step-title" data-i18n="remix_s2_title">Script Editor</div>
+        </div>
+        <div id="scriptEditor"></div>
+        <div class="btn-group" style="flex-wrap:wrap; gap:8px">
+          <button class="btn btn-secondary" onclick="remixGoToStep(1)" data-i18n="btn_back">Back</button>
+          <button class="btn btn-secondary" id="btnCompliance" onclick="remixCheckCompliance()" data-i18n="remix_compliance">Check Compliance</button>
+          <button class="btn btn-primary" onclick="remixSaveAndNext()" data-i18n="remix_next_frames">Next: AI Frames</button>
+        </div>
+        <div id="complianceResult" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Remix Step 3: AI First/Last Frames -->
+      <div class="step" id="remixStep3">
+        <div class="step-header"><div class="step-number">3</div><div class="step-title" data-i18n="remix_s3_title">AI First/Last Frames</div></div>
+        <div id="frameProgress"></div>
+        <div id="frameGallery"></div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="remixGoToStep(2)" data-i18n="btn_back">Back</button>
+          <button class="btn btn-primary" id="btnGenFrames" onclick="remixGenerateFrames()" data-i18n="remix_gen_frames">Generate Frames</button>
+          <button class="btn btn-primary" id="btnToSeedance" onclick="remixGoToStep(4)" style="display:none" data-i18n="remix_next_videos">Next: Generate Videos</button>
+        </div>
+      </div>
+
+      <!-- Remix Step 4: Seedance Video Generation -->
+      <div class="step" id="remixStep4">
+        <div class="step-header"><div class="step-number">4</div><div class="step-title" data-i18n="remix_s4_title">Seedance Video Generation</div></div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:13px;color:#8e8e8e;" data-i18n="remix_resolution_label">Resolution:</span>
+          <select id="seedanceResolution" style="padding:4px 8px;border:1px solid #dbdbdb;border-radius:6px;font-size:13px;">
+            <option value="720p">720p</option>
+            <option value="1080p">1080p</option>
+          </select>
+        </div>
+        <div id="seedanceProgress"></div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="remixGoToStep(3)" data-i18n="btn_back">Back</button>
+          <button class="btn btn-primary" id="btnStartSeedance" onclick="remixStartSeedance()" data-i18n="remix_gen_videos">Generate Videos</button>
+          <button class="btn btn-primary" id="btnToAssembly" onclick="remixGoToStep(5)" style="display:none" data-i18n="remix_next_assembly">Next: Assembly</button>
+        </div>
+      </div>
+
+      <!-- Remix Step 5: Final Assembly (merged voiceover + concat) -->
+      <div class="step" id="remixStep5">
+        <div class="step-header"><div class="step-number">5</div><div class="step-title" data-i18n="remix_s5_title">Final Assembly</div></div>
+        <p style="font-size:13px;color:#8e8e8e;margin-bottom:12px;" data-i18n="remix_assembly_desc">16s AI + 16s real footage with voiceover + 8s CTA = 40s</p>
+        <div id="assemblyProgress"></div>
+        <div id="assemblyDone" style="display:none"></div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="remixGoToStep(4)" data-i18n="btn_back">Back</button>
+          <button class="btn btn-primary" id="btnAssemble" onclick="remixAssemble()" data-i18n="remix_assemble">Assemble Final Video</button>
+        </div>
+      </div>
+    </div><!-- /module2 -->
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="/app.js?v=20260415d"></script>
+  <script src="/remix.js?v=20260415d"></script>
+</body>
+</html>
